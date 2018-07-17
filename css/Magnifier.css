@@ -1,0 +1,46 @@
+body,div,img{
+            margin: 0;
+            padding: 0;
+        }
+        img{
+            display: block;
+        }
+        .box1{
+            width: 480px;
+            height: 300px;
+            position: relative;
+            left: 100px;
+            top:100px;
+            cursor: pointer;
+        }
+        .img1{
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .cover{
+            width: 120px;
+            height: 75px;
+            background: #b6b6b6;
+            opacity: .5;
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            display: none;
+        }
+        .box2{
+            width: 480px;
+            height: 300px;
+            position: relative;
+            left: 600px;
+            top: -200px;
+            display: none;
+            overflow: hidden;
+        }
+        .box3{
+            position: absolute;
+            left: 0;
+            top:0;
+        }
