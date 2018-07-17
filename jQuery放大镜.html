@@ -1,34 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        body,div,img{
+        body,
+        div,
+        img {
             margin: 0;
             padding: 0;
         }
-        img{
+
+        img {
             display: block;
             border: 0;
         }
-        .box1{
+
+        .box1 {
             width: 480px;
             height: 300px;
             position: relative;
             left: 100px;
-            top:100px;
+            top: 100px;
             cursor: pointer;
         }
-        .img1{
+
+        .img1 {
             width: auto;
             height: auto;
             max-width: 100%;
             max-height: 100%;
         }
-        .cover{
+
+        .cover {
             width: 120px;
             height: 75px;
             background: #b6b6b6;
@@ -39,113 +46,134 @@
             display: none;
             pointer-events: none;
         }
-        .box2{
+
+        .box2 {
             width: 480px;
             height: 300px;
             position: relative;
             left: 600px;
             top: -200px;
-            display: none;
             overflow: hidden;
         }
-        .box3{
+
+        .box3 {
             position: absolute;
             left: 0;
-            top:0;
+            top: 0;
+            display: none;
         }
     </style>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 </head>
+
 <body>
     <div class="box1" id="box1">
-        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530787838954&di=f549535d30ee1d47ac6679d9a4cf6b73&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Ff9198618367adab409a7e8988ed4b31c8601e4f2.jpg" class="img1">
+        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530787838954&di=f549535d30ee1d47ac6679d9a4cf6b73&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Ff9198618367adab409a7e8988ed4b31c8601e4f2.jpg"
+            class="img1">
         <div class="cover" id="cover"></div>
     </div>
     <div class="box2" id="box2">
         <div class="box3" id="box3">
-            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530787838954&di=f549535d30ee1d47ac6679d9a4cf6b73&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Ff9198618367adab409a7e8988ed4b31c8601e4f2.jpg" id="img2">
+            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530787838954&di=f549535d30ee1d47ac6679d9a4cf6b73&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Ff9198618367adab409a7e8988ed4b31c8601e4f2.jpg"
+                id="img2">
         </div>
     </div>
     <script>
-        function Magnifier(){
+        function Magnifier() {
             this.init();
         };
+        Magnifier.prototype = {
 
-        //初始化函数,获取元素以及将遮罩位置初始化
-        Magnifier.prototype.init=function(){
-            var leftBoxWidth=$("#box1").width(),
-                leftBoxHeight=$("#box1").height(),
-                coverWidth=$("#cover").width(),
-                coverHeight=$("#cover").height(),
-                rightPicWidth=$("#box3").width(),
-                rightPicHeight=$("#box3").height();
+            //初始化函数,获取元素以及将遮罩位置初始化
+            init() {
+                //左侧图片宽
+                this.leftBoxWidth = $("#box1").width();
+                //左侧图片高
+                this.leftBoxHeight = $("#box1").height();
+                //遮罩宽
+                this.coverWidth = $("#cover").width();
+                //遮罩高
+                this.coverHeight = $("#cover").height();
+                //右侧图片宽
+                this.rightPicWidth = $("#box3").width();
+                //右侧图片高
+                this.rightPicHeight = $("#box3").height();
+                this.handleEvent();
+            },
 
-            this.handleEvent();
-        };
+            //事件绑定函数,绑定鼠标移入、事件
+            handleEvent(evt) {
 
-        //事件绑定函数,绑定鼠标移入、事件
-        Magnifier.prototype.handleEvent=function(){
-            $("#box1").mousemove(function(evt){
-                this.Show();
-                this.CoverMove(evt);
+                //鼠标移入
+                $("#box1").on("mousemove", $.proxy(function () {
+                    this.Show();
+                    this.CoverMove(evt);
+                    this.BorderTest();
+                    this.PicMove();
+                }, this))
+
+                //鼠标移出
+                $("#box1").on("mouseleave", $.proxy(function () {
+                    this.Hide();
+                }, this))
+            },
+
+            //半透明遮罩移动函数
+            CoverMove(e) {
+                var e=event;
+                $("#cover").css({
+                    left: e.offsetX - Math.round(this.coverWidth / 2),
+                    top: e.offsetY - Math.round(this.coverHeight / 2)
+                });
                 this.BorderTest();
-                this.PicMove();
-            }.bind(this))
-            $("#box1").mouseleave(function(){
-                this.Hide();
-            }.bind(this))
-        }
-        //半透明遮罩移动函数
-        Magnifier.prototype.CoverMove=function(e){
-            $("#cover").css({
-                left:e.offsetX-Math.round(this.coverWidth/2),
-                top:e.offsetY-Math.round(this.coverHeight/2)
-            });
-            this.BorderTest();
-        };
+            },
 
-        //右侧图片移动函数
-        Magnifier.prototype.PicMove=function(){
-            $("#box3").css({
-                left:-Math.round(this.rightPicWidth/this.leftBoxWidth*($("#cover").position().left)),
-                top:-Math.round(this.rightPicHeight/this.leftBoxHeight*($("#cover").position().top))
-            })
-        };
+            //右侧图片移动函数
+            PicMove() {
 
-        //边界检测函数
-        Magnifier.prototype.BorderTest=function(){
-            if($("#cover").position().left<0){
-                $("#cover").css({left:0});
-            }
-            else if($("#cover").position().left>(this.leftBoxWidth-this.coverWidth)){
-                $("#cover").css({
-                    left:(this.leftBoxWidth-this.coverWidth)
+                //大图的left/遮罩的left = 大图宽度/小图宽度
+                $("#box3").css({
+                    left: -Math.round(this.rightPicWidth / this.leftBoxWidth * ($("#cover").position().left)),
+                    top: -Math.round(this.rightPicHeight / this.leftBoxHeight * ($("#cover").position().top))
+                })
+            },
+
+            //边界检测函数
+            BorderTest() {
+                if ($("#cover").position().left < 0) {
+                    $("#cover").css({ left: 0 });
+                }
+                else if ($("#cover").position().left > (this.leftBoxWidth - this.coverWidth)) {
+                    $("#cover").css({
+                        left: (this.leftBoxWidth - this.coverWidth)
                     })
-            }
-            else if($("#cover").position().top<0){
-                $("#cover").css({top:0});
-            }
-            else if($("#cover").position().top>(this.leftBoxHeight-this.coverHeight)){
-                $("#cover").css({
-                    top:(this.leftBoxHeight-this.coverHeight)
+                }
+                else if ($("#cover").position().top < 0) {
+                    $("#cover").css({ top: 0 });
+                }
+                else if ($("#cover").position().top > (this.leftBoxHeight - this.coverHeight)) {
+                    $("#cover").css({
+                        top: (this.leftBoxHeight - this.coverHeight)
                     })
+                }
+            },
+
+            //隐藏函数
+            Hide() {
+                $("#cover").css("display", "none");
+                $("#box3").css("display", "none");
+            },
+
+            //显示函数
+            Show() {
+                $("#cover").css("display", "block");
+                $("#box3").css("display", "block");
             }
-            
-        };
 
-        //隐藏
-        Magnifier.prototype.Hide=function(){
-            $("#cover").css("display","none");
-            $("#box2").css("display","none");
-        }
-
-        //显示
-        Magnifier.prototype.Show=function(){
-            $("#cover").css("display","block");
-            $("#box2").css("display","block");
         }
         new Magnifier();
-        
+
     </script>
 </body>
+
 </html>
