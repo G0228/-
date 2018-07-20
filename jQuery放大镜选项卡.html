@@ -7,9 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        body,
-        div,
-        img {
+        *{
             margin: 0;
             padding: 0;
         }
@@ -41,9 +39,6 @@
             width: 120px;
             height: 75px;
             display: none;
-            background: url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530787838954&di=f549535d30ee1d47ac6679d9a4cf6b73&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Ff9198618367adab409a7e8988ed4b31c8601e4f2.jpg) no-repeat;
-            background-size:480px 300px;
-            background-position: 0 0;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             position: absolute;
             left: 0;
@@ -56,7 +51,7 @@
             height: 300px;
             position: relative;
             left: 600px;
-            top: -200px;
+            top: -290px;
             overflow: hidden;
         }
         .wrap {
@@ -65,23 +60,58 @@
             position: absolute;
             z-index: 999;
         }
-        #bigimg{
+        .bigpic img{
             display: none;
             position: absolute;
         }
+        .list{
+            position: relative;
+            left: 100px;
+            top:100px;
+            width: 480px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border: 4px solid #ddd;
+        }
+        ul{
+            display: inline-block;
+            list-style: none;
+        }
+        
+        ul img{
+            float: left;
+            width: 25%;
+            height: 75px;
+        }
+        li:first-child{
+            padding-left: 0
+        }
     </style>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="jquery.mousewheel.js"></script>
+    <script src="js/jquery.mousewheel.js"></script>
 </head>
 
 <body>
     <div class="smallpic" id="smallpic">
         <div class="wrap"></div>
-        <img id="smallimg" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530787838954&di=f549535d30ee1d47ac6679d9a4cf6b73&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Ff9198618367adab409a7e8988ed4b31c8601e4f2.jpg">
+        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530787838954&di=f549535d30ee1d47ac6679d9a4cf6b73&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Ff9198618367adab409a7e8988ed4b31c8601e4f2.jpg">
+        <img src="http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1212/06/c0/16390570_1354773414869.jpg">
+        <img src="http://www.33lc.com/article/UploadPic/2012-8/201282913341774779.jpg">
+        <img src="http://old.bz55.com/uploads/allimg/120808/1-120PQ03527.jpg">
         <div class="cover" id="cover"></div>
     </div>
+    <div class="list" id="list">
+        <ul>
+            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530787838954&di=f549535d30ee1d47ac6679d9a4cf6b73&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Ff9198618367adab409a7e8988ed4b31c8601e4f2.jpg">
+            <img src="http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1212/06/c0/16390570_1354773414869.jpg">
+            <img src="http://www.33lc.com/article/UploadPic/2012-8/201282913341774779.jpg">
+            <img src="http://old.bz55.com/uploads/allimg/120808/1-120PQ03527.jpg">
+        </ul>
+    </div>
     <div class="bigpic" id="bigpic">
-        <img id="bigimg" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530787838954&di=f549535d30ee1d47ac6679d9a4cf6b73&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Ff9198618367adab409a7e8988ed4b31c8601e4f2.jpg">
+        <img src="http://old.bz55.com/uploads/allimg/120808/1-120PQ03527.jpg">
+        <img src="http://www.33lc.com/article/UploadPic/2012-8/201282913341774779.jpg">
+        <img src="http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1212/06/c0/16390570_1354773414869.jpg">
+        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530787838954&di=f549535d30ee1d47ac6679d9a4cf6b73&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Ff9198618367adab409a7e8988ed4b31c8601e4f2.jpg">
     </div>
     <script>
         function Magnifier() {
@@ -93,9 +123,15 @@
                 this.smallpic = $("#smallpic");
                 this.bigpic = $("#bigpic");
                 this.cover = $("#cover");
-                this.bigimg = $("#bigimg");
-                this.smallimg = $("#smallimg");
+                this.bigimg = $("#bigpic img");
+                this.smallimg = $("#smallpic img");
+                $("#smallpic img").eq(0).show().siblings().hide();
                 this.handleEvent();
+                $("#list ul img").on("mouseenter",$.proxy(function(event){
+                    this.target=event.target;
+                    this.smallpic.children("img").eq($(this.target).index()).show().siblings().hide();
+                    this.bigpic.children("img").eq((this.bigimg.length-1)-$(this.target).index()).siblings().hide()
+                },this))
             },
 
             //事件绑定函数,绑定鼠标移入、事件
@@ -135,10 +171,10 @@
                     left:pos.left,
                     top:pos.top
                 })
-                this.cover.css({
-                    backgroundPosition:-pos.left+"px "+ -pos.top + "px"
-                })
-                
+                // this.cover.css({
+                //     backgroundPosition:-pos.left+"px "+ -pos.top + "px"
+                // })
+                this.bigimg.eq((this.bigimg.length-1)-$(this.target).index()).show().siblings().hide()
                 //大图的left/遮罩的left = 大图宽度/小图宽度
                 this.bigimg.css({
                     left:-parseInt(this.bigimg.width()/this.smallpic.width())*this.cover.position().left,
@@ -174,8 +210,8 @@
                     }
                     //向下; => 缩小;
                     this.cover.css({
-                        width:"-=2",
-                        height:"-=1",
+                        width:"-=3",
+                        height:"-=2",
                         left:"+=1",
                         top:"+=1"
                     })
@@ -185,8 +221,8 @@
                     }
                     //向上; => 放大;
                     this.cover.css({
-                        width:"+=2",
-                        height:"+=1",
+                        width:"+=3",
+                        height:"+=2",
                         left:"-=1",
                         top:"-=1"
                     })
@@ -199,7 +235,7 @@
                 this.bigimg.width(this.widthProp * this.smallpic.width()) 
                 this.bigimg.height(this.heightProp * this.smallpic.height()) 
 
-                this.posElem({
+                this.elemMove({
                     left:this.cover.position().left,
                     top:this.cover.position().top
                 })
